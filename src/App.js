@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Col, Row, Container } from "./components/Grid";
+import TodayContainer from "./components/TodayContainer";
+import ForecastContainer from "./components/ForecastContainer";
 import logo from './logo.svg';
 import './App.css';
 
@@ -46,6 +48,12 @@ class App extends Component {
       <div className="App">
         <Container fluid="true">
           <img src={logo} className="App-logo" alt="logo" />
+          <TodayContainer today={this.state.weather}>
+
+          </TodayContainer>
+          <ForecastContainer forecast={this.state.forecast}>
+
+          </ForecastContainer>
           <form>
             <div className="form-group">
               <label>Enter zipcode</label>
