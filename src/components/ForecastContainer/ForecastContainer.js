@@ -1,16 +1,31 @@
 import React from "react";
+import { List, ListItem } from "../List";
 
 const ForecastContainer = props => {
-  let forecastMain;
+  let forecastList;
   if (props.currentLocation.forecast) {
-    forecastMain = props.currentLocation.forecast.list[0].weather[0].main;
+    forecastList = props.currentLocation.forecast.list.filter((element, index) => {
+      return index % 8 === 0;
+    });
+
+    return (
+      <List>
+        {forecastList.map(day => (
+          <ListItem>
+            <p>Date: {day.dt_txt}</p>
+            <p>High: {props.convertTemp(day.main.temp_max)}</p>
+            <p>Low: {props.convertTemp(day.main.temp_min)}</p>
+          </ListItem>
+        ))}
+      </List>
+    )
+  } else {
+    return (
+      <div>
+        {props.children}
+      </div>
+    )
   }
-  return (
-    <div>
-      <p>Tomorrow: {forecastMain}</p>
-      {props.children}
-    </div>
-  )
 }
 
 export default ForecastContainer;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Col, Row, Container } from "./components/Grid";
 import TodayContainer from "./components/TodayContainer";
 import ForecastContainer from "./components/ForecastContainer";
-import { List, ListItem } from "./components/LocationList";
+import { List, ListItem } from "./components/List";
 import logo from './logo.svg';
 import './App.css';
 
@@ -66,7 +66,6 @@ class App extends Component {
 
   convertTemp = temp => {
     let convertedTemp = temp - 273.15;
-    console.log(convertedTemp);
     if (this.state.tempUnit === "°F") {
       convertedTemp = 1.8 * convertedTemp + 32;
     }
@@ -76,31 +75,42 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Container fluid="true">
-          <img src={logo} className="App-logo" alt="logo" />
-          <List>
-            {this.state.locations.map((location, index) => (
-              <ListItem location={location} id={index} changeLocation={this.changeLocation} />
-            ))}
-          </List>
-          <TodayContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp}>
-
-          </TodayContainer>
-          <ForecastContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp}>
-
-          </ForecastContainer>
-          <form>
-            <div className="form-group">
-              <label>Enter zipcode</label>
-              <input 
-                className="form-control" 
-                onChange={this.handleInputChange}
-                name="formZipcode"
-                placeholder="zipcode" 
-              />
-            </div>
-            <button onClick={this.handleFormSubmit} type="submit" className="btn btn-danger">Submit</button>
-          </form>
+        <Container>
+          <Row>
+            <Col size="md-4">
+              <Row>
+                <form>
+                  <div className="form-group">
+                    <label>Enter zipcode</label>
+                    <input 
+                      className="form-control" 
+                      onChange={this.handleInputChange}
+                      name="formZipcode"
+                      placeholder="zipcode" 
+                    />
+                  </div>
+                  <button onClick={this.handleFormSubmit} type="submit" className="btn btn-danger">Submit</button>
+                </form>
+              </Row>
+              <Row>
+                <List>
+                  {this.state.locations.map((location, index) => (
+                    <ListItem location={location} onClick={() => (this.changeLocation(index))}>
+                      {location.today.name}
+                    </ListItem>
+                  ))}
+                </List>
+              </Row>
+            </Col>
+            <Col size="md-8">
+              <Row>
+              <TodayContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
+              </Row>
+              <Row>
+                <ForecastContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
+              </Row>
+            </Col>
+          </Row>
         </Container>
       </div>
     );
