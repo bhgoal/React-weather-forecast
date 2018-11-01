@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import { Col, Row, Container } from "./components/Grid";
 import TodayContainer from "./components/TodayContainer";
 import ForecastContainer from "./components/ForecastContainer";
+import { List, ListItem } from "./components/LocationList";
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   state = {
-    weather: {},
-    forecast: {},
-    formZipcode: ""
+    locations: [],
+    currentLocation: {},
+    formZipcode: "",
+    tempUnit: "°F"
   }
 
   componentDidMount() {
@@ -27,20 +29,48 @@ class App extends Component {
     event.preventDefault();
     if (this.state.formZipcode) {
       console.log(this.state.formZipcode);
-      this.runApiCall("weather");
-      this.runApiCall("forecast");
+      this.runApiCall();
     }
   }
 
-  runApiCall = apiType => {
+  runApiCall = () => {
     const baseURL = "http://api.openweathermap.org/data/2.5/";
     const queryParams = `?zip=${this.state.formZipcode}&APPID=da94383d867bc56261204d883151e83d`;
-    const queryURL = baseURL + apiType + queryParams;
-    axios.get(queryURL)
-      .then(res => 
-      this.setState({
-        [apiType]: res.data
-      }));
+    axios.get(baseURL + "weather" + queryParams)
+    .then(res => {
+      const todayRes = res.data;
+      axios.get(baseURL + "forecast" + queryParams)
+      .then(res => {
+        const forecastRes = res.data;
+        this.handleApiData(todayRes, forecastRes);
+      });
+    });
+  }
+
+  handleApiData = (todayRes, forecastRes) => {
+    let locations = this.state.locations;
+    const newLocation = {
+      today: todayRes,
+      forecast: forecastRes
+    }
+    locations.push(newLocation);
+    this.setState({locations: locations});
+    this.changeLocation(locations.length - 1);
+  }
+
+  changeLocation = id => {
+    this.setState({
+      currentLocation: this.state.locations[id]
+    });
+  }
+
+  convertTemp = temp => {
+    let convertedTemp = temp - 273.15;
+    console.log(convertedTemp);
+    if (this.state.tempUnit === "°F") {
+      convertedTemp = 1.8 * convertedTemp + 32;
+    }
+    return Math.round(convertedTemp) + this.state.tempUnit;
   }
 
   render() {
@@ -48,10 +78,15 @@ class App extends Component {
       <div className="App">
         <Container fluid="true">
           <img src={logo} className="App-logo" alt="logo" />
-          <TodayContainer today={this.state.weather}>
+          <List>
+            {this.state.locations.map((location, index) => (
+              <ListItem location={location} id={index} changeLocation={this.changeLocation} />
+            ))}
+          </List>
+          <TodayContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp}>
 
           </TodayContainer>
-          <ForecastContainer forecast={this.state.forecast}>
+          <ForecastContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp}>
 
           </ForecastContainer>
           <form>
