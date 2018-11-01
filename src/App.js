@@ -4,7 +4,7 @@ import { Col, Row, Container } from "./components/Grid";
 import TodayContainer from "./components/TodayContainer";
 import ForecastContainer from "./components/ForecastContainer";
 import { List, ListItem } from "./components/List";
-import logo from './logo.svg';
+import background from './background.jpg';
 import './App.css';
 
 class App extends Component {
@@ -75,23 +75,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <div className="background" style={{background: `url('${background}') center/cover`}} />
         <Container>
           <Row>
             <Col size="md-4">
-              <Row>
-                <form>
-                  <div className="form-group">
-                    <label>Enter zipcode</label>
-                    <input 
-                      className="form-control" 
+              <form>
+                <div className="form-group row">
+                  <label for="searchForm" className="col-sm-auto col-form-label fas fa-search">Search</label>
+                  <input type="text" className="col-sm-6 form-control form-control-sm mr-2" 
                       onChange={this.handleInputChange}
                       name="formZipcode"
-                      placeholder="zipcode" 
-                    />
-                  </div>
-                  <button onClick={this.handleFormSubmit} type="submit" className="btn btn-danger">Submit</button>
-                </form>
-              </Row>
+                      placeholder="zipcode"  />
+                  <button onClick={this.handleFormSubmit} type="submit" className="btn btn-primary btn-sm">Go</button>
+                </div>
+              </form>
               <Row>
                 <List>
                   {this.state.locations.map((location, index) => (
@@ -106,9 +103,7 @@ class App extends Component {
               <Row>
               <TodayContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
               </Row>
-              <Row>
                 <ForecastContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
-              </Row>
             </Col>
           </Row>
         </Container>

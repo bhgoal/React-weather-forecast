@@ -1,5 +1,16 @@
 import React from "react";
-import { List, ListItem } from "../List";
+import { Col, Row } from "../Grid";
+
+const style = {
+  background: "rgba(255, 255, 255, 0.7)",
+  overflow: "auto",
+  width: "100%",
+  height: "50%"
+};
+
+const listStyle = {
+  float: "left"
+}
 
 const ForecastContainer = props => {
   let forecastList;
@@ -9,15 +20,15 @@ const ForecastContainer = props => {
     });
 
     return (
-      <List>
+      <div className="row justify-content-center">
         {forecastList.map(day => (
-          <ListItem>
-            <p>Date: {day.dt_txt}</p>
+          <Col size="lg-2" style={listStyle}>
+            <p>Date: {"hi"}</p>
             <p>High: {props.convertTemp(day.main.temp_max)}</p>
             <p>Low: {props.convertTemp(day.main.temp_min)}</p>
-          </ListItem>
+          </Col>
         ))}
-      </List>
+      </div>
     )
   } else {
     return (
