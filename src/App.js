@@ -6,6 +6,8 @@ import './App.css';
 
 class App extends Component {
   state = {
+    weather: {},
+    forecast: {},
     formZipcode: ""
   }
 
@@ -21,9 +23,22 @@ class App extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    console.log(this.state.formZipcode);
-    const baseURL = 
-    axios.get
+    if (this.state.formZipcode) {
+      console.log(this.state.formZipcode);
+      this.runApiCall("weather");
+      this.runApiCall("forecast");
+    }
+  }
+
+  runApiCall = apiType => {
+    const baseURL = "http://api.openweathermap.org/data/2.5/";
+    const queryParams = `?zip=${this.state.formZipcode}&APPID=da94383d867bc56261204d883151e83d`;
+    const queryURL = baseURL + apiType + queryParams;
+    axios.get(queryURL)
+      .then(res => 
+      this.setState({
+        [apiType]: res.data
+      }));
   }
 
   render() {
