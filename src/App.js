@@ -18,9 +18,9 @@ class App extends Component {
 
   // Capture form input into state
   handleInputChange = event => {
-    const { name, value } = event.target;
+    const { id, value } = event.target;
     this.setState({
-      [name]: value
+      [id]: value
     });
   };
 
@@ -96,12 +96,12 @@ class App extends Component {
             <Col size="lg-4">           
               <Row className="mb-3 mt-3">
                 <form className="form-inline">
-                  <label className="col-auto col-form-label fas fa-search" />
-                  <input 
+                  <label for="formZipcode" className="col-auto col-form-label fas fa-search" />
+                  <input
                     type="text" 
                     className={"col-6 form-control form-control-sm mr-2" + nightClass} 
                     onChange={this.handleInputChange}
-                    name="formZipcode"
+                    id="formZipcode"
                     placeholder="Zipcode"
                     value={this.state.formZipcode}
                   />
