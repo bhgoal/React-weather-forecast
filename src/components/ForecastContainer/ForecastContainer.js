@@ -1,16 +1,6 @@
 import React from "react";
 import { Col, Row } from "../Grid";
-
-const style = {
-  background: "rgba(255, 255, 255, 0.7)",
-  overflow: "auto",
-  width: "100%",
-  height: "50%"
-};
-
-const listStyle = {
-  float: "left"
-}
+import "./ForecastContainer.css";
 
 const ForecastContainer = props => {
   let forecastList;
@@ -19,13 +9,17 @@ const ForecastContainer = props => {
       return index % 8 === 0;
     });
 
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const date = new Date();
+  const tomorrow = date.getDay() + 1;
+
     return (
-      <div className="row justify-content-center">
-        {forecastList.map(day => (
-          <Col size="lg-2" style={listStyle}>
-            <p>Date: {"hi"}</p>
-            <p>High: {props.convertTemp(day.main.temp_max)}</p>
-            <p>Low: {props.convertTemp(day.main.temp_min)}</p>
+      <div className="row justify-content-center mt-4">
+        {forecastList.map((day, index) => (
+          <Col size="lg-2" >
+            <p className={"m-3 d-inline d-lg-block"}>{(tomorrow + index) < 7 ? days[tomorrow + index] : days[tomorrow + index - 7]}</p>
+            <p className={"m-3 d-inline d-lg-block"}>High: {props.convertTemp(day.main.temp_max)}</p>
+            <p className={"m-3 d-inline d-lg-block"}>Low: {props.convertTemp(day.main.temp_min)}</p>
           </Col>
         ))}
       </div>

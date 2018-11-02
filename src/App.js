@@ -30,6 +30,7 @@ class App extends Component {
     if (this.state.formZipcode) {
       console.log(this.state.formZipcode);
       this.runApiCall();
+      this.setState({formZipcode: "Loading..."});
     }
   }
 
@@ -43,6 +44,7 @@ class App extends Component {
       .then(res => {
         const forecastRes = res.data;
         this.handleApiData(todayRes, forecastRes);
+        this.setState({formZipcode: ""});
       });
     });
   }
@@ -80,19 +82,20 @@ class App extends Component {
           <Row>
             <Col size="md-4">
               <form>
-                <div className="form-group row">
-                  <label for="searchForm" className="col-sm-auto col-form-label fas fa-search">Search</label>
+                <div className="form-group row mt-3">
+                  <label for="searchForm" className="col-sm-auto col-form-label fas fa-search" />
                   <input type="text" className="col-sm-6 form-control form-control-sm mr-2" 
                       onChange={this.handleInputChange}
                       name="formZipcode"
-                      placeholder="zipcode"  />
+                      placeholder="Zipcode"
+                      value={this.state.formZipcode} />
                   <button onClick={this.handleFormSubmit} type="submit" className="btn btn-primary btn-sm">Go</button>
                 </div>
               </form>
               <Row>
                 <List>
                   {this.state.locations.map((location, index) => (
-                    <ListItem location={location} onClick={() => (this.changeLocation(index))}>
+                    <ListItem location={location} changeLocation={this.changeLocation} index={index}>
                       {location.today.name}
                     </ListItem>
                   ))}
