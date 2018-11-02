@@ -24,6 +24,12 @@
   margin-left: 100%;
 }
 
+.unitToggleBtn {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}
+
 .nightToggleBtn:hover {
 color: rgb(0, 0, 0);
 cursor: pointer;

@@ -78,12 +78,21 @@ class App extends Component {
     return Math.round(convertedTemp) + this.state.tempUnit;
   }
 
+  // Toggle units between °C and °F
+  unitToggle = () => {
+    if (this.state.tempUnit === "°F") {
+      this.setState({tempUnit: "°C"})
+    } else {
+      this.setState({tempUnit: "°F"})
+    }
+  }
+
   // Toggle night mode on/off
   nightToggle = () => {
     this.setState(prevState => ({
       night: !prevState.night
     }));
-  }
+  } 
 
   render() {
 
@@ -140,7 +149,14 @@ class App extends Component {
                 currentLocation={this.state.currentLocation}
                 convertTemp={this.convertTemp} 
                 night={this.state.night}
-              />
+              >
+                {/* Temp units toggle */}
+                <button 
+                  onClick={this.unitToggle}
+                  type="button"
+                  className={"btn btn-primary btn-sm unitToggleBtn" + nightClass}
+                >°C / °F</button>
+              </TodayContainer>
               <ForecastContainer 
                 currentLocation={this.state.currentLocation}
                 convertTemp={this.convertTemp} 
