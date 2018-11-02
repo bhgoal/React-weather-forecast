@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   runApiCall = () => {
-    const baseURL = "http://api.openweathermap.org/data/2.5/";
+    const baseURL = "https://api.openweathermap.org/data/2.5/";
     const queryParams = `?zip=${this.state.formZipcode}&APPID=da94383d867bc56261204d883151e83d`;
     axios.get(baseURL + "weather" + queryParams)
     .then(res => {
