@@ -16,6 +16,7 @@ class App extends Component {
     nightMode: false
   }
 
+  // Capture form input into state
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -23,33 +24,33 @@ class App extends Component {
     });
   };
 
-  validateInput = () => {
-    
-  }
-
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.formZipcode) {
-      this.runApiCall();
+    const zipInput = this.state.formZipcode.trim();
+    // Validate zipcode entry
+    if ((zipInput.length === 5) && (!isNaN(zipInput))) {
       this.setState({formZipcode: "Loading..."});
+      const baseURL = "https://api.openweathermap.org/data/2.5/";
+        const queryParams = `?zip=${this.state.formZipcode}&APPID=da94383d867bc56261204d883151e83d`;
+        // Make call to current weather API
+        axios.get(baseURL + "weather" + queryParams)
+        .then(res => {
+          const todayRes = res.data;
+          // Make call to 5-day forecast API
+          axios.get(baseURL + "forecast" + queryParams)
+          .then(res => {
+            const forecastRes = res.data;
+            // Pass along responses to be saved
+            this.handleApiData(todayRes, forecastRes);
+            this.setState({formZipcode: ""});
+          });
+        }).catch(err => console.log(err));
+    } else {
+      console.log("invalid zip");
     }
   }
 
-  runApiCall = () => {
-    const baseURL = "https://api.openweathermap.org/data/2.5/";
-    const queryParams = `?zip=${this.state.formZipcode}&APPID=da94383d867bc56261204d883151e83d`;
-    axios.get(baseURL + "weather" + queryParams)
-    .then(res => {
-      const todayRes = res.data;
-      axios.get(baseURL + "forecast" + queryParams)
-      .then(res => {
-        const forecastRes = res.data;
-        this.handleApiData(todayRes, forecastRes);
-        this.setState({formZipcode: ""});
-      });
-    }).catch(err => console.log(err));;
-  }
-
+  // Add new search to list of locations
   handleApiData = (todayRes, forecastRes) => {
     let locations = this.state.locations;
     const newLocation = {
@@ -61,12 +62,14 @@ class App extends Component {
     this.changeLocation(locations.length - 1);
   }
 
+  // Method to change the currently displayed location
   changeLocation = id => {
     this.setState({
       currentLocation: this.state.locations[id]
     });
   }
 
+  // Method to convert between °C and °F
   convertTemp = temp => {
     let convertedTemp = temp - 273.15;
     if (this.state.tempUnit === "°F") {
