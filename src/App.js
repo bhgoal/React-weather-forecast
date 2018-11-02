@@ -12,6 +12,7 @@ class App extends Component {
     locations: [],
     currentLocation: {},
     formZipcode: "",
+    formError: "",
     tempUnit: "°F",
     night: false
   }
@@ -20,7 +21,8 @@ class App extends Component {
   handleInputChange = event => {
     const { id, value } = event.target;
     this.setState({
-      [id]: value
+      [id]: value,
+      formError: ""
     });
   };
 
@@ -44,8 +46,19 @@ class App extends Component {
             this.handleApiData(todayRes, forecastRes);
             this.setState({formZipcode: ""});
           });
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            // If zipcode does not resolve to a city, display error message
+            let errMessage = err.response.data.message;
+            errMessage = errMessage.charAt(0).toUpperCase() + errMessage.slice(1);
+            this.setState({
+              formError: errMessage,
+              formZipcode: zipInput
+            });
+            console.log(err.response);
+          });
     } else {
+      // Show message for wrong zipcode format
+      this.setState({formError: "Invalid Zipcode"});
       console.log("invalid zip");
     }
   }
@@ -80,11 +93,9 @@ class App extends Component {
 
   // Toggle units between °C and °F
   unitToggle = () => {
-    if (this.state.tempUnit === "°F") {
-      this.setState({tempUnit: "°C"})
-    } else {
-      this.setState({tempUnit: "°F"})
-    }
+    this.setState(prevState => ({
+      tempUnit: prevState.tempUnit === "°F" ? "°C" : "°F"
+    }))
   }
 
   // Toggle night mode on/off
@@ -108,7 +119,7 @@ class App extends Component {
               <Row className="mb-3 mt-3">
                 {/* Zip input form */}
                 <form className="form-inline">
-                  <label for="formZipcode" className="col-auto col-form-label fas fa-search" />
+                  <label htmlFor="formZipcode" className="col-auto col-form-label fas fa-search" />
                   <input
                     type="text" 
                     className={"col-6 form-control form-control-sm mr-2" + nightClass} 
@@ -127,7 +138,7 @@ class App extends Component {
                 <i 
                   className={"far fa-moon ml-auto mr-3 nightToggleBtn" + nightClass} 
                   onClick={this.nightToggle} 
-                />
+                /><p className="formError">{this.state.formError}</p>
               </Row>            
               <Row>
                 {/* List of entered zipcodes */}
