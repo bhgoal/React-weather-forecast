@@ -27,5 +27,6 @@ React Weather App uses the OpenWeatherMap API to retrieve current and 5-day weat
 - Submit a zipcode in the search bar on the left to get a weather report.
 - Searched locations will be stored below the search bar. Click on them to switch between locations.
 - Just to the right of the search bar is a moon-shaped button to toggle the interface's night mode.
+- After a location is searched, a button in the top right corner toggles between Fahrenheit and Celcius.
 
 The app is fully responsive and when run in production mode, provides Progressive Web App functionality.
