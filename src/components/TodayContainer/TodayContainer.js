@@ -26,10 +26,10 @@ const TodayContainer = props => {
           <p style={locationStyle}>{location.name}</p>
         </Col>
         <Col size="md-6" className={"text-left mt-4"}>
-          <p>Weather: {location.weather[0].main}</p>
-          <p>Temperature: {props.convertTemp(location.main.temp)}</p>
-          <p>High: {props.convertTemp(location.main.temp_max)}</p>
-          <p>Low: {props.convertTemp(location.main.temp_min)}</p>
+          <p className={"ml-3"}>Weather: {location.weather[0].main}</p>
+          <p className={"ml-3"}>Temperature: {props.convertTemp(location.main.temp)}</p>
+          <p className={"ml-3"}>High: {props.convertTemp(location.main.temp_max)}</p>
+          <p className={"ml-3"}>Low: {props.convertTemp(location.main.temp_min)}</p>
         </Col>
         {props.children}
         </Row>
