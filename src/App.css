@@ -1,40 +1,3 @@
-body {
-  font-family: 'Krub', sans-serif;
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .background {
   height: 100vh;
   width: 100vw;
@@ -42,15 +5,61 @@ body {
   z-Index: -1;
 }
 
-.nightToggle {
-    color: rgb(70, 70, 70);
+.container {
+  text-align: center;
+  font-family: 'Krub', sans-serif;
+  background: rgba(255, 255, 255, 0.75);
+  position: absolute;
+  overflow: auto;
+  max-width: 80vw;
+  height: 80vh;
+  margin: 10vh 10vw;
+  border-radius: 0.5vw
 }
 
-.nightToggle:hover {
-  color: rgb(0, 0, 0);
-  cursor: pointer;
+.nightToggleBtn {
+  color: rgb(70, 70, 70);
+  font-size: 1.7rem;
+  margin-top: .2rem;
+  margin-left: 100%;
 }
 
-.night {
-  color: white;
+.nightToggleBtn:hover {
+color: rgb(0, 0, 0);
+cursor: pointer;
+}
+
+.container.night {
+  color: rgb(240, 240, 240);
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.nightToggleBtn.night {
+  color: rgb(255, 255, 255);
+  background: transparent;
+}
+
+.nightToggleBtn.night:hover {
+  color: rgb(180, 180, 180);
+}
+
+input.night {
+  border-color: rgb(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+input.night:focus {
+  border-color: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 1.0);
+  color: rgb(240, 240, 240);
+}
+
+.btn.night {
+  border-color: rgb(29, 68, 175);
+  background: rgb(22, 48, 117);
+}
+
+.btn.night:hover {
+  border-color: rgb(12, 29, 77);
+  background: rgb(18, 37, 88);
 }

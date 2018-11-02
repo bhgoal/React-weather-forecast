@@ -1,0 +1,16 @@
+.list-overflow-container {
+  width: 100%;
+}
+
+li:hover {
+  background: rgb(245, 245, 245);
+  cursor: pointer;
+}
+
+li.night {
+  background: rgba(10, 10, 10, 0.8);
+}
+
+li.night:hover {
+  background: rgb(0, 0, 0);
+}

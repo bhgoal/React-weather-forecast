@@ -1,11 +1,13 @@
 import React from "react";
-import "./ListItem.css";
+import "./List.css";
 
-const style = {
+export const ListItem = props => {
 
+  const nightClass = props.night ? " night" : "";
+
+  return (
+    <li className={"list-group-item text-left" + nightClass} onClick={props.onClick}>
+      {props.children}
+    </li>
+  )
 }
-
-export const ListItem = props =>
-  <li className="list-group-item text-left" style={style} onClick={() => props.changeLocation(props.index)}>
-    {props.children}
-  </li>;

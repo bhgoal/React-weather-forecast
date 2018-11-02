@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Col, Row, Container } from "./components/Grid";
+import { Col, Row } from "./components/Grid";
 import TodayContainer from "./components/TodayContainer";
 import ForecastContainer from "./components/ForecastContainer";
 import { List, ListItem } from "./components/List";
@@ -13,7 +13,7 @@ class App extends Component {
     currentLocation: {},
     formZipcode: "",
     tempUnit: "°F",
-    nightMode: false
+    night: false
   }
 
   // Capture form input into state
@@ -80,37 +80,50 @@ class App extends Component {
 
   nightToggle = () => {
     this.setState(prevState => ({
-      nightMode: !prevState.nightMode
+      night: !prevState.night
     }));
   }
 
   render() {
 
-    const nightClass = this.state.nightMode ? " night" : "";
+    const nightClass = this.state.night ? " night" : "";
 
     return (
-      <div className={"App" + nightClass}>
+      <div>
         <div className="background" style={{background: `url('${background}') center/cover`}} />
-        <Container className={"container" + nightClass}>
+        <div className={"container" + nightClass}>
           <Row>
-            <Col size="lg-4">
-              <form>
-                <div className="form-group row mt-3">
+            <Col size="lg-4">           
+              <Row className="mb-3 mt-3">
+                <form className="form-inline">
                   <label className="col-auto col-form-label fas fa-search" />
-                  <input type="text" className="col-6 form-control form-control-sm mr-2" 
-                      onChange={this.handleInputChange}
-                      name="formZipcode"
-                      placeholder="Zipcode"
-                      value={this.state.formZipcode} />
-                  <button onClick={this.handleFormSubmit} type="submit" className="btn btn-primary btn-sm">Go</button>
-                  <i className="far fa-moon ml-auto mr-3 nightToggle" style={{fontSize: "1.7rem", marginTop: ".2rem"}} onClick={this.nightToggle} />
-                  
-                </div>
-              </form>
+                  <input 
+                    type="text" 
+                    className={"col-6 form-control form-control-sm mr-2" + nightClass} 
+                    onChange={this.handleInputChange}
+                    name="formZipcode"
+                    placeholder="Zipcode"
+                    value={this.state.formZipcode}
+                  />
+                  <button 
+                    onClick={this.handleFormSubmit}
+                    type="submit" 
+                    className={"btn btn-primary btn-sm" + nightClass}
+                  >Go</button>
+                </form>
+                <i 
+                  className={"far fa-moon ml-auto mr-3 nightToggleBtn" + nightClass} 
+                  onClick={this.nightToggle} 
+                />
+              </Row>            
               <Row>
                 <List>
                   {this.state.locations.map((location, index) => (
-                    <ListItem key={location.today.name} location={location} changeLocation={this.changeLocation} index={index}>
+                    <ListItem 
+                      key={location.today.name}
+                      night={this.state.night}
+                      onClick={() => this.changeLocation(index)}
+                    >
                       {location.today.name}
                     </ListItem>
                   ))}
@@ -118,13 +131,18 @@ class App extends Component {
               </Row>
             </Col>
             <Col size="lg-8">
-              <Row>
-              <TodayContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
-              </Row>
-                <ForecastContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
+              <TodayContainer 
+                currentLocation={this.state.currentLocation}
+                convertTemp={this.convertTemp} 
+                night={this.state.night}
+              />
+              <ForecastContainer 
+                currentLocation={this.state.currentLocation}
+                convertTemp={this.convertTemp} 
+              />
             </Col>
           </Row>
-        </Container>
+        </div>
       </div>
     );
   }
