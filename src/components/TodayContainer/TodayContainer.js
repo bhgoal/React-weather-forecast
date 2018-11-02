@@ -22,6 +22,7 @@ const TodayContainer = props => {
     )
   } else {
     return (
+      /* Initial welcome message */
       <Row className={"todayContainer" + nightClass}>
         <Col size="md-6" className={"text-left"}>
           <p className="location">Hello.</p>

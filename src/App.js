@@ -78,6 +78,7 @@ class App extends Component {
     return Math.round(convertedTemp) + this.state.tempUnit;
   }
 
+  // Toggle night mode on/off
   nightToggle = () => {
     this.setState(prevState => ({
       night: !prevState.night
@@ -86,6 +87,7 @@ class App extends Component {
 
   render() {
 
+    // Conditional night CSS class
     const nightClass = this.state.night ? " night" : "";
 
     return (
@@ -95,6 +97,7 @@ class App extends Component {
           <Row>
             <Col size="lg-4">           
               <Row className="mb-3 mt-3">
+                {/* Zip input form */}
                 <form className="form-inline">
                   <label for="formZipcode" className="col-auto col-form-label fas fa-search" />
                   <input
@@ -111,12 +114,14 @@ class App extends Component {
                     className={"btn btn-primary btn-sm" + nightClass}
                   >Go</button>
                 </form>
+                {/* Night mode toggle */}
                 <i 
                   className={"far fa-moon ml-auto mr-3 nightToggleBtn" + nightClass} 
                   onClick={this.nightToggle} 
                 />
               </Row>            
               <Row>
+                {/* List of entered zipcodes */}
                 <List>
                   {this.state.locations.map((location, index) => (
                     <ListItem 
