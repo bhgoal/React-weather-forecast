@@ -41,3 +41,16 @@ body {
   position: absolute;
   z-Index: -1;
 }
+
+.nightToggle {
+    color: rgb(70, 70, 70);
+}
+
+.nightToggle:hover {
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.night {
+  color: white;
+}

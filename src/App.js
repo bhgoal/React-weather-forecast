@@ -12,10 +12,8 @@ class App extends Component {
     locations: [],
     currentLocation: {},
     formZipcode: "",
-    tempUnit: "°F"
-  }
-
-  componentDidMount() {
+    tempUnit: "°F",
+    nightMode: false
   }
 
   handleInputChange = event => {
@@ -25,10 +23,13 @@ class App extends Component {
     });
   };
 
+  validateInput = () => {
+    
+  }
+
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.formZipcode) {
-      console.log(this.state.formZipcode);
       this.runApiCall();
       this.setState({formZipcode: "Loading..."});
     }
@@ -46,7 +47,7 @@ class App extends Component {
         this.handleApiData(todayRes, forecastRes);
         this.setState({formZipcode: ""});
       });
-    });
+    }).catch(err => console.log(err));;
   }
 
   handleApiData = (todayRes, forecastRes) => {
@@ -74,35 +75,46 @@ class App extends Component {
     return Math.round(convertedTemp) + this.state.tempUnit;
   }
 
+  nightToggle = () => {
+    this.setState(prevState => ({
+      nightMode: !prevState.nightMode
+    }));
+  }
+
   render() {
+
+    const nightClass = this.state.nightMode ? " night" : "";
+
     return (
-      <div className="App">
+      <div className={"App" + nightClass}>
         <div className="background" style={{background: `url('${background}') center/cover`}} />
-        <Container>
+        <Container className={"container" + nightClass}>
           <Row>
-            <Col size="md-4">
+            <Col size="lg-4">
               <form>
                 <div className="form-group row mt-3">
-                  <label for="searchForm" className="col-sm-auto col-form-label fas fa-search" />
-                  <input type="text" className="col-sm-6 form-control form-control-sm mr-2" 
+                  <label className="col-auto col-form-label fas fa-search" />
+                  <input type="text" className="col-6 form-control form-control-sm mr-2" 
                       onChange={this.handleInputChange}
                       name="formZipcode"
                       placeholder="Zipcode"
                       value={this.state.formZipcode} />
                   <button onClick={this.handleFormSubmit} type="submit" className="btn btn-primary btn-sm">Go</button>
+                  <i className="far fa-moon ml-auto mr-3 nightToggle" style={{fontSize: "1.7rem", marginTop: ".2rem"}} onClick={this.nightToggle} />
+                  
                 </div>
               </form>
               <Row>
                 <List>
                   {this.state.locations.map((location, index) => (
-                    <ListItem location={location} changeLocation={this.changeLocation} index={index}>
+                    <ListItem key={location.today.name} location={location} changeLocation={this.changeLocation} index={index}>
                       {location.today.name}
                     </ListItem>
                   ))}
                 </List>
               </Row>
             </Col>
-            <Col size="md-8">
+            <Col size="lg-8">
               <Row>
               <TodayContainer currentLocation={this.state.currentLocation} convertTemp={this.convertTemp} />
               </Row>

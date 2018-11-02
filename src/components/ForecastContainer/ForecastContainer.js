@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row } from "../Grid";
+import { Col } from "../Grid";
 import "./ForecastContainer.css";
 
 const ForecastContainer = props => {
@@ -16,7 +16,7 @@ const ForecastContainer = props => {
     return (
       <div className="row justify-content-center mt-4">
         {forecastList.map((day, index) => (
-          <Col size="lg-2" >
+          <Col key={index} size="lg-2" >
             <p className={"m-3 d-inline d-lg-block"}>{(tomorrow + index) < 7 ? days[tomorrow + index] : days[tomorrow + index - 7]}</p>
             <p className={"m-3 d-inline d-lg-block"}>High: {props.convertTemp(day.main.temp_max)}</p>
             <p className={"m-3 d-inline d-lg-block"}>Low: {props.convertTemp(day.main.temp_min)}</p>
